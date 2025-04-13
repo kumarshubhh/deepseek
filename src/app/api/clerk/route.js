@@ -28,16 +28,19 @@ export async function POST(req) {
         image: data.image_url,
     };
     await connectDb();
+    console.log("✅ MongoDB Connected");
 
     switch (type) {
         case "user.created":
             await User.create(userData);
+            console.log("✅ User created");
             break;
         case "user.updated":
              await User.findByIdAndUpdate(data.id, userData)
             break;
             case "user.deleted":
             await User.findByIdAndDelete(data.id)
+            console.log("❌ User deleted");
             break;
         default:
             break;
