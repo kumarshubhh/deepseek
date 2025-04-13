@@ -7,7 +7,7 @@ import { headers } from "next/headers";
 import { NextResponse } from "next/server";
 
 export async function POST(req) {
-    const wh = new Webhook(process.env.SIGNING_SECRET);
+ try{   const wh = new Webhook(process.env.SIGNING_SECRET);
     const headerPayload = await headers();
     const svixHeader = {
         "svix-id": headerPayload.get("svix-id"),
@@ -47,4 +47,13 @@ export async function POST(req) {
     }, {
         status: 200,
     } )
+
+}catch (error) {
+    return NextResponse.json({
+        message: "Webhook error",
+        error: error.message,
+    }, {
+        status: 500,
+    })
+}
 }
