@@ -18,8 +18,8 @@ export default async function dbConnect() {
       .connect(process.env.MONGODB_URI, {
         useNewUrlParser: true,
         useUnifiedTopology: true,
-        useFindAndModify: false, // Disable use of findAndModify
-        useCreateIndex: true, // Use createIndex instead of ensureIndex
+         // Disable use of findAndModify
+         // Use createIndex instead of ensureIndex
       })
       .then((mongooseInstance) => {
         console.log("✅ MongoDB connected successfully!");
