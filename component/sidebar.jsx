@@ -10,7 +10,7 @@ import { useState } from 'react'
 const Sidebar = ({expand, setExpand}) => {
 
 const {openSignIn} = useClerk()
-const {user} = useAppContext()
+const {user, chats, createNewChat} = useAppContext()
 const [openMenu, setOpenMenu] = useState({id:0, open: false})
 
   return (
@@ -35,7 +35,7 @@ className='group relative flex items-center justify-center hover:bg-gray-500/20 
 
         </div>
 
-        <button className={`mt-8 flex items-center justify-center cursor-pointer ${expand ? "bg-primary hover:opacity-90 rounded-2xl gap-2 p-2.5 w-max":"group relative h-9 w-9 mx-auto hover:bg-gray-500/20 rounded-lg"}`}>
+        <button  onClick={createNewChat}   className={`mt-8 flex items-center justify-center cursor-pointer ${expand ? "bg-primary hover:opacity-90 rounded-2xl gap-2 p-2.5 w-max":"group relative h-9 w-9 mx-auto hover:bg-gray-500/20 rounded-lg"}`}>
   <Image src={expand ? assets.chat_icon : assets.chat_icon_dull} alt='' className={`${expand ? "w-6" : "w-7"}`} />
   <div className='absolute w-max -top-12 -right-12 opacity-0 group-hover:opacity-100 transition bg-black text-white text-sm px-3 py-2 rounded-lg shadow-lg pointer-events-none'>
     New chat
@@ -47,8 +47,10 @@ className='group relative flex items-center justify-center hover:bg-gray-500/20 
 <div className={`mt-8 text-white/25 text-sm ${expand? "block" : "hidden"}`}>
   <p className='my-1'>Recente</p>
 
+  {chats.map((chat, index) => <ChatLabel  key={index} name={chat.name} id ={chat._id} openMenu={openMenu}   setOpenMenu={setOpenMenu} />)}
+
   {/* chat label */}
-  <ChatLabel  openMenu={openMenu}   setOpenMenu={setOpenMenu} />
+  
 </div>
 
 
@@ -61,7 +63,7 @@ className='group relative flex items-center justify-center hover:bg-gray-500/20 
     <div className={`absolute -top-60 pb-8 ${!expand && "-right-40"} opacity-0 group-hover:opacity-100 group-hover:block transition`}>
 
     <div   className='relative w-max bg-black text-white text-sm p-3  rounded-lg shadow-lg '>
-      <Image src={assets.qrcode} className='w-44'/>
+      <Image src={assets.qrcode} className='w-44' alt=''/>
       <p>Scan to get DeepSeek App</p>
       <div className={`w-3 h-3 absolute bg-black rotate-45 ${expand?"right-1/2": "left-4"} -bottom-1.5`}></div>
       </div>
@@ -76,9 +78,10 @@ className='group relative flex items-center justify-center hover:bg-gray-500/20 
 <div onClick={user ? null:  openSignIn}
 className={`flex items-center ${expand? 'hover:bg-white/10 rounded-lg':"justify-center w-full"} gap-3 text-white/60 text-sm p-2 mt-2 cursor-pointer`}>
 
-  {
-    user ? <UserButton/> : <Image src={assets.signin_icon} alt='' className='w-7'/>
-  }
+{
+  user ? <UserButton /> : (assets.signin_icon ? <Image src={assets.signin_icon} alt='' className='w-7' /> : null)
+}
+
 
 
 
