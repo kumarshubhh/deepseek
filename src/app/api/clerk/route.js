@@ -20,8 +20,10 @@ export async function POST(req) {
     };
 
     const payload = await req.json();
+    console.log("📥 Payload:", payload);
     const body = JSON.stringify(payload);
     const {data, type} = wh.verify(body, svixHeader);
+    console.log("📤 Verified:", data, type);
 
     const userData ={
         _id: data.id,
@@ -37,8 +39,9 @@ export async function POST(req) {
             await User.create(userData);
             console.log("✅ User created");
             break;
+            
         case "user.updated":
-             await User.findByIdAndUpdate(data.id, userData)
+            await User.findByIdAndUpdate(data.id, userData, { upsert: true });
             break;
             case "user.deleted":
             await User.findByIdAndDelete(data.id)
