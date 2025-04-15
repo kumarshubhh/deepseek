@@ -34,6 +34,7 @@ export default function RootLayout({ children }) {
         {children}
       </body>
     </html>
-    </AppContextProvider></ClerkProvider>
+    </AppContextProvider>
+    </ClerkProvider>
   );
 }
